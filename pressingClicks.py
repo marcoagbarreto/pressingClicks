@@ -6,12 +6,12 @@ Version: 17-Aug-2022
 """
 
 try:
-    import os
-    import time
-    import random
+    from os import system as os_system, name as os_name
+    from time import sleep as time_sleep
+    from random import uniform as random_uniform
     from pynput.mouse import Controller, Button, Listener as mouseListener
     from pynput.keyboard import Key, Listener as keyboardListener
-    import threading
+    from threading import Thread as threading_Thread
 except ImportError as details:
     print("-E- Couldn't import module, try pip install 'module'")
     raise details
@@ -39,10 +39,10 @@ def set_limits(point):
         limit = 0
     upper = point + limit
     lower = point - limit
-    return random.uniform(lower, upper)
+    return random_uniform(lower, upper)
 
 
-class pressingClicks(threading.Thread):
+class pressingClicks(threading_Thread):
     """
     pressingClicks
     """
@@ -68,14 +68,14 @@ class pressingClicks(threading.Thread):
         Parameters:
         @ xy: type:tuple, x and y coordinates to click
         """
-        time.sleep(set_limits(self.delay))
+        time_sleep(set_limits(self.delay))
         # Set pointer position
         x = int(set_limits(xy[0]))
         y = int(set_limits(xy[1]))
         self.mouse.position = (x, y)
         # Press and release
         self.mouse.press(Button.left)
-        time.sleep(random.uniform(0.1, 0.3))
+        time_sleep(random_uniform(0.1, 0.3))
         self.mouse.release(Button.left)
 
     def run(self):
@@ -87,7 +87,7 @@ class pressingClicks(threading.Thread):
                 for xy in self.clicks:
                     if self.running:
                         self.click(xy)
-            time.sleep(set_limits(self.interval))
+            time_sleep(set_limits(self.interval))
 
     def start_clicking(self):
         """
@@ -229,10 +229,10 @@ def main():
     """
 
     # Set terminal size to optimal size
-    os.system('mode con cols=37 lines=15')
+    os_system('mode con cols=37 lines=15')
 
     # Set terminal to be always on top
-    os.system('Powershell.exe -ExecutionPolicy UnRestricted -Command "(Add-Type -memberDefinition \\"[DllImport('
+    os_system('Powershell.exe -ExecutionPolicy UnRestricted -Command "(Add-Type -memberDefinition \\"[DllImport('
               '\\"\\"user32.dll\\"\\")] public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, '
               'int x,int y,int cx, int xy, uint flagsw);\\" -name \\"Win32SetWindowPos\\" -passThru )::SetWindowPos(('
               'Add-Type -memberDefinition \\"[DllImport(\\"\\"Kernel32.dll\\"\\")] public static extern IntPtr '
@@ -240,7 +240,7 @@ def main():
               '67)"')
 
     # Clear the terminal after last command
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os_system('cls' if os_name == 'nt' else 'clear')
 
     while True:
 
@@ -261,7 +261,7 @@ def main():
         init_keyboard(clicks)
 
         # Restart the program
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os_system('cls' if os_name == 'nt' else 'clear')
 
 
 if __name__ == '__main__':
