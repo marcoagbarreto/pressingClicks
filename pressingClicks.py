@@ -1,6 +1,6 @@
 """
 Title: pressingClicks
-Description: This is a program to press clicks.
+Description: This is a program to press clicks given an input routine and loops through.
 Author: Marco A. Barreto - marcoagbarreto
 Version: 17-Aug-2022
 """
@@ -174,7 +174,7 @@ def init_mouse():
         """
         if button == Button.middle:
             # Stop mouse listener
-            print('Saving Click Routine')
+            print('Saving Clicks Routine')
             return False
 
         if pressed:
