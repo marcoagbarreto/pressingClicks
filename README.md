@@ -1,7 +1,7 @@
 # pressingClicks
 This is a program to press clicks given an input routine and loops through.
 
-* Download the latest release of [pressingClicks.exe](https://github.com/marcoagbarreto/pressingClicks/releases/download/v0.1.0/pressingClicks.exe)
+* Download the latest release of [pressingClicks.exe](https://github.com/marcoagbarreto/pressingClicks/releases/download/v0.1.1/pressingClicks.exe)
 
 ## Example
 
