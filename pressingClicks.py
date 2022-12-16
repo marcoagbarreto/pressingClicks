@@ -2,7 +2,7 @@
 Title: pressingClicks
 Description: This is a program to press clicks given an input routine and loops through.
 Author: Marco A. Barreto - marcoagbarreto
-Version: 17-Aug-2022
+Version: 16-Dec-2022
 """
 
 try:
@@ -68,7 +68,6 @@ class pressingClicks(threading_Thread):
         Parameters:
         @ xy: type:tuple, x and y coordinates to click
         """
-        time_sleep(set_limits(self.delay))
         # Set pointer position
         x = int(set_limits(xy[0]))
         y = int(set_limits(xy[1]))
@@ -77,17 +76,22 @@ class pressingClicks(threading_Thread):
         self.mouse.press(Button.left)
         time_sleep(random_uniform(0.1, 0.3))
         self.mouse.release(Button.left)
+        time_sleep(set_limits(self.delay))
 
     def run(self):
         """
         Runs the clicks
         """
         while self.program_running:
-            if self.running:
+            while self.running:
                 for xy in self.clicks:
-                    if self.running:
-                        self.click(xy)
-            time_sleep(set_limits(self.interval))
+                    self.click(xy)
+                    if not self.running:
+                        break
+                if not self.running:
+                    break
+                time_sleep(set_limits(self.interval))
+            time_sleep(0.1)
 
     def start_clicking(self):
         """
