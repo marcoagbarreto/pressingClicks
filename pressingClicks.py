@@ -91,7 +91,6 @@ class pressingClicks(threading_Thread):
                         break
                 if not self.running:
                     break
-                # time_sleep(set_limits(self.interval))
                 self.timeout.wait(set_limits(self.interval))
             time_sleep(0.1)
 
