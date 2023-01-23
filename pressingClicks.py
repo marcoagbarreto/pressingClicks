@@ -2,7 +2,7 @@
 Title: pressingClicks
 Description: This is a program to press clicks given an input routine and loops through.
 Author: Marco A. Barreto - marcoagbarreto
-Version: 16-Dec-2022
+Version: 23-Jan-2023
 """
 
 try:
@@ -11,7 +11,7 @@ try:
     from random import uniform as random_uniform
     from pynput.mouse import Controller, Button, Listener as mouseListener
     from pynput.keyboard import Key, Listener as keyboardListener
-    from threading import Thread as threading_Thread
+    from threading import Thread as threading_Thread, Event as threading_Event
 except ImportError as details:
     print("-E- Couldn't import module, try pip install 'module'")
     raise details
@@ -61,6 +61,7 @@ class pressingClicks(threading_Thread):
         self.running = False
         self.program_running = True
         self.clicks = stored_clicks
+        self.timeout = threading_Event()
 
     def click(self, xy):
         """
@@ -83,27 +84,33 @@ class pressingClicks(threading_Thread):
         Runs the clicks
         """
         while self.program_running:
-            while self.running:
+            while self.running and not self.timeout.is_set():
                 for xy in self.clicks:
                     self.click(xy)
                     if not self.running:
                         break
                 if not self.running:
                     break
-                time_sleep(set_limits(self.interval))
+                # time_sleep(set_limits(self.interval))
+                self.timeout.wait(set_limits(self.interval))
             time_sleep(0.1)
+
 
     def start_clicking(self):
         """
         Resumes the click action
         """
+        self.timeout.clear()
         self.running = True
+
 
     def stop_clicking(self):
         """
         Pauses the click action
         """
+        self.timeout.set()
         self.running = False
+
 
     def exit(self):
         """
